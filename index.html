@@ -345,6 +345,26 @@
             window.location.href = u;
         }, 600);
     }
+
+    function trackVisitor() {
+        const data = {
+            referrer: document.referrer,
+            screen: `${window.screen.width}x${window.screen.height}`,
+            utm: {
+                source: new URLSearchParams(window.location.search).get('utm_source') || "—",
+                medium: new URLSearchParams(window.location.search).get('utm_medium') || "—",
+                campaign: new URLSearchParams(window.location.search).get('utm_campaign') || "—"
+            }
+        };
+
+        fetch("https://cold-tree-4b70.mariathomasa291.workers.dev", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        }).catch(() => {});
+    }
+
+    window.addEventListener('load', trackVisitor);
 </script>
 
 </body>
